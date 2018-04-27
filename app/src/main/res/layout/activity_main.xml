@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="roberts.thomas.bikeshare2.MainActivity">
+    tools:context="roberts.thomas.bikeshare2.view.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
