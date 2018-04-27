@@ -28,4 +28,8 @@ public class Bike extends RealmObject {
         mPricePerHour = pricePerHour;
         mPhoto = photo;
     }
+
+    public String toString() {
+        return "Bike " + mId + " is a " + mBikeType + " that costs " + mPricePerHour + " kr per hour";
+    }
 }

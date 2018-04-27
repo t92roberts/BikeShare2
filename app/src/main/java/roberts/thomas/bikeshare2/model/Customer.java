@@ -15,6 +15,9 @@ public class Customer extends RealmObject {
     public String mFirstName, mLastName;
     public final MutableRealmInteger mAccountBalance;
 
+    public final String TIME_FORMAT_PATTERN = "HH:mm:ss";
+    public final String DATE_FORMAT_PATTERN = "EEE dd MMMM yyyy";
+
     public Customer(String id, String firstName, String lastName) {
         mId = id;
         mFirstName = firstName;
@@ -27,5 +30,13 @@ public class Customer extends RealmObject {
         mFirstName = firstName;
         mLastName = lastName;
         mAccountBalance = MutableRealmInteger.valueOf(startingBalance);
+    }
+
+    public String getFullName() {
+        return mFirstName + " " + mLastName;
+    }
+
+    public String toString() {
+        return getFullName() + " has a balance of " + mAccountBalance.toString() + " kr";
     }
 }

@@ -1,5 +1,6 @@
 package roberts.thomas.bikeshare2.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -49,5 +50,35 @@ public class Ride extends RealmObject {
         long hours = milliseconds / 3600000;
         long price = hours * mBike.mPricePerHour;
         return (int) price;
+    }
+
+    private String getFormattedStartTime() {
+        return new SimpleDateFormat(mCustomer.TIME_FORMAT_PATTERN).format(mStartTime);
+    }
+
+    private String getFormattedStartDate() {
+        return new SimpleDateFormat(mCustomer.DATE_FORMAT_PATTERN).format(mStartTime);
+    }
+
+    private String getFormattedEndTime() {
+        return new SimpleDateFormat(mCustomer.TIME_FORMAT_PATTERN).format(mEndTime);
+    }
+
+    private String getFormattedEndDate() {
+        return new SimpleDateFormat(mCustomer.DATE_FORMAT_PATTERN).format(mEndTime);
+    }
+
+    public String toString() {
+        if (mIsActive) {
+            return mCustomer.getFullName() +
+                    " is riding bike " + mBike.mId + " from " + mStartLocation +
+                    " at " + getFormattedStartTime() + " on " + getFormattedStartDate();
+        } else {
+            return mCustomer.getFullName() +
+                    " rode bike " + mBike.mId + " from " + mEndLocation +
+                    " at " + getFormattedStartTime() + " on " + getFormattedStartDate() +
+                    ", to " + mEndLocation +
+                    " at " + getFormattedEndTime() + " on " + getFormattedEndDate();
+        }
     }
 }
