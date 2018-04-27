@@ -35,6 +35,7 @@ public class Ride extends RealmObject {
         mStartLocation = startLocation;
 
         mIsActive = true;
+        mBike.mIsBeingRidden = true;
     }
 
     public void endRide(String endLocation) {
@@ -42,6 +43,8 @@ public class Ride extends RealmObject {
         mEndLocation = endLocation;
 
         mIsActive = false;
+        mBike.mIsBeingRidden = false;
+
         mRideTotalPrice = calculateRidePrice();
     }
 

@@ -16,10 +16,13 @@ public class Bike extends RealmObject {
 
     public byte[] mPhoto;
 
+    public boolean mIsBeingRidden;
+
     public Bike(String id, String bikeType, int pricePerHour) {
         mId = id;
         mBikeType = bikeType;
         mPricePerHour = pricePerHour;
+        mIsBeingRidden = false;
     }
 
     public Bike(String id, String bikeType, int pricePerHour, byte[] photo) {
@@ -27,9 +30,21 @@ public class Bike extends RealmObject {
         mBikeType = bikeType;
         mPricePerHour = pricePerHour;
         mPhoto = photo;
+        mIsBeingRidden = false;
+    }
+
+    public Bike(String id, String bikeType, int pricePerHour, byte[] photo, boolean isBeingRidden) {
+        mId = id;
+        mBikeType = bikeType;
+        mPricePerHour = pricePerHour;
+        mPhoto = photo;
+        mIsBeingRidden = isBeingRidden;
     }
 
     public String toString() {
-        return "Bike " + mId + " is a " + mBikeType + " that costs " + mPricePerHour + " kr per hour";
+        return "Bike " + mId +
+                " is a " + mBikeType +
+                " that costs " + mPricePerHour + " kr per hour" +
+                " and is currently " + (mIsBeingRidden ? "" : "not") +" being ridden";
     }
 }
