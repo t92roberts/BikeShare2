@@ -26,6 +26,10 @@ public class Ride extends RealmObject {
     public boolean mIsActive;
     public int mRideTotalPrice;
 
+    public Ride() {
+
+    }
+
     public Ride(String id, Bike bike, Customer customer, String startLocation) {
         mId = id;
         mBike = bike;

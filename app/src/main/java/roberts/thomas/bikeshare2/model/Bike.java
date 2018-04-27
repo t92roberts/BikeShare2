@@ -18,6 +18,10 @@ public class Bike extends RealmObject {
 
     public boolean mIsBeingRidden;
 
+    public Bike() {
+
+    }
+
     public Bike(String id, String bikeType, int pricePerHour) {
         mId = id;
         mBikeType = bikeType;
@@ -31,14 +35,6 @@ public class Bike extends RealmObject {
         mPricePerHour = pricePerHour;
         mPhoto = photo;
         mIsBeingRidden = false;
-    }
-
-    public Bike(String id, String bikeType, int pricePerHour, byte[] photo, boolean isBeingRidden) {
-        mId = id;
-        mBikeType = bikeType;
-        mPricePerHour = pricePerHour;
-        mPhoto = photo;
-        mIsBeingRidden = isBeingRidden;
     }
 
     public String toString() {
