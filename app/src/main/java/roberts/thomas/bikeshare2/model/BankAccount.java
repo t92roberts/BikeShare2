@@ -10,19 +10,17 @@ import io.realm.annotations.PrimaryKey;
 
 public class BankAccount extends RealmObject {
     @PrimaryKey
-    private String mId;
+    public String mId;
 
     public final MutableRealmInteger mBalance;
 
-    public BankAccount() {
+    public BankAccount(String id) {
+        mId = id;
         mBalance = MutableRealmInteger.valueOf(0);
     }
 
-    public String getId() {
-        return mId;
-    }
-
-    public void setId(String id) {
+    public BankAccount(String id, int startingBalance) {
         mId = id;
+        mBalance = MutableRealmInteger.valueOf(startingBalance);
     }
 }

@@ -11,88 +11,43 @@ import io.realm.annotations.PrimaryKey;
 
 public class Ride extends RealmObject {
     @PrimaryKey
-    private String mId;
+    public String mId;
 
-    private Bike mBike;
-    private Customer mCustomer;
+    public Bike mBike;
+    public Customer mCustomer;
 
-    private String mStartLocation;
-    private Date mStartTime;
+    public Date mStartTime;
+    public String mStartLocation;
 
-    private String mEndLocation;
-    private Date mEndTime;
+    public Date mEndTime;
+    public String mEndLocation;
 
-    private int mRidePrice;
+    public boolean mIsActive;
+    public int mRideTotalPrice;
 
-    public Ride() {
-
-    }
-
-    public boolean isActive() {
-        return mEndLocation == null || mEndTime == null;
-    }
-
-    public String getId() {
-        return mId;
-    }
-
-    public void setId(String id) {
+    public Ride(String id, Bike bike, Customer customer, String startLocation) {
         mId = id;
-    }
-
-    public Bike getBike() {
-        return mBike;
-    }
-
-    public void setBike(Bike bike) {
-        this.mBike = bike;
-    }
-
-    public Customer getCustomer() {
-        return mCustomer;
-    }
-
-    public void setCustomer(Customer customer) {
+        mBike = bike;
         mCustomer = customer;
-    }
 
-    public String getStartLocation() {
-        return mStartLocation;
-    }
-
-    public void setStartLocation(String startLocation) {
+        mStartTime = new Date();
         mStartLocation = startLocation;
+
+        mIsActive = true;
     }
 
-    public Date getStartTime() {
-        return mStartTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        mStartTime = startTime;
-    }
-
-    public String getEndLocation() {
-        return mEndLocation;
-    }
-
-    public void setEndLocation(String endLocation) {
+    public void endRide(String endLocation) {
+        mEndTime = new Date();
         mEndLocation = endLocation;
+
+        mIsActive = false;
+        mRideTotalPrice = calculateRidePrice();
     }
 
-    public Date getEndTime() {
-        return mEndTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        mEndTime = endTime;
-    }
-
-    public int getRidePrice() {
-        return mRidePrice;
-    }
-
-    public void setRidePrice(int ridePrice) {
-        mRidePrice = ridePrice;
+    private int calculateRidePrice() {
+        long milliseconds = mEndTime.getTime() - mStartTime.getTime();
+        long hours = milliseconds / 3600000;
+        long price = hours * mBike.mPricePerHour;
+        return (int) price;
     }
 }
