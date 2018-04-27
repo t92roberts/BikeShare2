@@ -11,43 +11,88 @@ import io.realm.annotations.PrimaryKey;
 
 public class Ride extends RealmObject {
     @PrimaryKey
-    public String mId;
+    private String mId;
 
-    public String mBikeId;
-    public String mCustomerId;
+    private Bike mBike;
+    private Customer mCustomer;
 
-    public boolean active;
+    private String mStartLocation;
+    private Date mStartTime;
 
-    public String mStartLocation;
-    public Date mStartTime;
+    private String mEndLocation;
+    private Date mEndTime;
 
-    public String mEndLocation;
-    public Date mEndTime;
+    private int mRidePrice;
 
-    public int mBikePricePerHour;
-    public int mTotalRidePrice;
+    public Ride() {
 
-    public Ride(String id, String bikeId, int bikePricePerHour, String customerId) {
+    }
+
+    public boolean isActive() {
+        return mEndLocation == null || mEndTime == null;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
         mId = id;
-        mBikeId = bikeId;
-        mBikePricePerHour = bikePricePerHour;
-        mCustomerId = customerId;
     }
 
-    public void startRide(String startLocation) {
+    public Bike getBike() {
+        return mBike;
+    }
+
+    public void setBike(Bike bike) {
+        this.mBike = bike;
+    }
+
+    public Customer getCustomer() {
+        return mCustomer;
+    }
+
+    public void setCustomer(Customer customer) {
+        mCustomer = customer;
+    }
+
+    public String getStartLocation() {
+        return mStartLocation;
+    }
+
+    public void setStartLocation(String startLocation) {
         mStartLocation = startLocation;
-        mStartTime = new Date();
-        mTotalRidePrice = 0;
     }
 
-    public void endRide(String endLocation) {
+    public Date getStartTime() {
+        return mStartTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        mStartTime = startTime;
+    }
+
+    public String getEndLocation() {
+        return mEndLocation;
+    }
+
+    public void setEndLocation(String endLocation) {
         mEndLocation = endLocation;
-        mEndTime = new Date();
-        mTotalRidePrice = calculateRidePrice();
     }
 
-    private int calculateRidePrice() {
-        int hours = (int)(mEndTime.getTime() - mStartTime.getTime()) / 3600000;
-        return hours * mBikePricePerHour;
+    public Date getEndTime() {
+        return mEndTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        mEndTime = endTime;
+    }
+
+    public int getRidePrice() {
+        return mRidePrice;
+    }
+
+    public void setRidePrice(int ridePrice) {
+        mRidePrice = ridePrice;
     }
 }

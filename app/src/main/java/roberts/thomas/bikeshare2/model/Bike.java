@@ -9,26 +9,54 @@ import io.realm.annotations.PrimaryKey;
 
 public class Bike extends RealmObject {
     @PrimaryKey
-    public String mId;
+    private String mId;
 
-    public String mBikeType;
-    public byte[] mPhoto;
-    public int mPricePerHour;
-    public boolean mInUse;
+    private String mBikeType;
+    private byte[] mPhoto;
+    private int mPricePerHour;
+    private boolean mInUse;
 
-    public Bike(String id, String bikeType, byte[] photo, int pricePerHour) {
-        mId = id;
-        mBikeType = bikeType;
-        mPhoto = photo;
-        mPricePerHour = pricePerHour;
-        mInUse = false;
+    public Bike() {
+
     }
 
-    public Bike(String id, String bikeType, byte[] photo, int pricePerHour, boolean inUse) {
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
         mId = id;
+    }
+
+    public String getBikeType() {
+        return mBikeType;
+    }
+
+    public void setBikeType(String bikeType) {
         mBikeType = bikeType;
+    }
+
+    public byte[] getPhoto() {
+        return mPhoto;
+    }
+
+    public void setPhoto(byte[] photo) {
         mPhoto = photo;
+    }
+
+    public int getPricePerHour() {
+        return mPricePerHour;
+    }
+
+    public void setPricePerHour(int pricePerHour) {
         mPricePerHour = pricePerHour;
-        mInUse = inUse;
+    }
+
+    public boolean isInUse() {
+        return mInUse;
+    }
+
+    public void setInUse(boolean inUse) {
+        this.mInUse = inUse;
     }
 }
