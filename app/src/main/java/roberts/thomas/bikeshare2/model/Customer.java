@@ -1,5 +1,6 @@
 package roberts.thomas.bikeshare2.model;
 
+import io.realm.MutableRealmInteger;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -12,12 +13,19 @@ public class Customer extends RealmObject {
     public String mId;
 
     public String mFirstName, mLastName;
-    public BankAccount mBankAccount;
+    public final MutableRealmInteger mAccountBalance;
 
-    public Customer(String id, String firstName, String lastName, BankAccount bankAccount) {
+    public Customer(String id, String firstName, String lastName) {
         mId = id;
         mFirstName = firstName;
         mLastName = lastName;
-        mBankAccount = bankAccount;
+        mAccountBalance = MutableRealmInteger.valueOf(0);
+    }
+
+    public Customer(String id, String firstName, String lastName, int startingBalance) {
+        mId = id;
+        mFirstName = firstName;
+        mLastName = lastName;
+        mAccountBalance = MutableRealmInteger.valueOf(startingBalance);
     }
 }
