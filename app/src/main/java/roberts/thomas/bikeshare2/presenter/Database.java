@@ -53,8 +53,7 @@ public class Database {
 
         Ride ride2 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "Nørreport");
         addRideToRealm(ride2, context);
-        ride2.endRide("Home");
-        if (ride2.endRide("Nørreport")) {
+        if (ride2.endRide("Home")) {
             Toast.makeText(context,
                     ride2.mTotalPrice + " kr deducted from account",
                     Toast.LENGTH_LONG).show();
@@ -81,9 +80,9 @@ public class Database {
         });
     }
 
-    public Customer getCustomerFromRealm(Customer customer) {
+    public Customer getCustomerFromRealm(String customerId) {
         return sRealm.where(Customer.class)
-                .equalTo("mId", customer.mId)
+                .equalTo("mId", customerId)
                 .findFirst();
     }
 
@@ -92,19 +91,20 @@ public class Database {
                 .findAll();
     }
 
-    public void deleteCustomer(final Customer customer, final Context context) {
+    public void deleteCustomerFromRealm(final String customerId, final Context context) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RealmResults<Customer> customers = realm.where(Customer.class)
-                        .equalTo("mId", customer.mId)
+                        .equalTo("mId", customerId)
                         .findAll();
 
                 if (customers.size() > 0) {
-                    customers.deleteAllFromRealm();
                     Toast.makeText(context,
-                            "Deleted customer: " + customer.getFullName() + " (" + customer.mId + ")",
+                            "Deleted customer: " + customers.first().getFullName() +
+                                    " (" + customers.first().mId + ")",
                             Toast.LENGTH_LONG).show();
+                    customers.deleteFirstFromRealm();
                 }
             }
         });
@@ -126,9 +126,9 @@ public class Database {
         });
     }
 
-    public Bike getBikeFromRealm(Bike bike) {
+    public Bike getBikeFromRealm(String bikeId) {
         return sRealm.where(Bike.class)
-                .equalTo("mId", bike.mId)
+                .equalTo("mId", bikeId)
                 .findFirst();
     }
 
@@ -143,19 +143,19 @@ public class Database {
                 .findAll();
     }
 
-    public void deleteBike(final Bike bike, final Context context) {
+    public void deleteBikeFromRealm(final String bikeId, final Context context) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RealmResults<Bike> bikes = realm.where(Bike.class)
-                        .equalTo("mId", bike.mId)
+                        .equalTo("mId", bikeId)
                         .findAll();
 
                 if (bikes.size() > 0) {
-                    bikes.deleteAllFromRealm();
                     Toast.makeText(context,
-                            "Deleted bike: " + bike.mBikeName + "(" + bike.mId + ")",
+                            "Deleted bike: " + bikes.first().mBikeName + "(" + bikes.first().mId + ")",
                             Toast.LENGTH_LONG).show();
+                    bikes.deleteFirstFromRealm();
                 }
             }
         });
@@ -175,9 +175,9 @@ public class Database {
         });
     }
 
-    public Ride getRideFromRealm(Ride ride) {
+    public Ride getRideFromRealm(String rideId) {
         return sRealm.where(Ride.class)
-                .equalTo("mId", ride.mId)
+                .equalTo("mId", rideId)
                 .findFirst();
     }
 
@@ -192,19 +192,19 @@ public class Database {
                 .findAll();
     }
 
-    public void deleteRide(final Ride ride, final Context context) {
+    public void deleteRideFromRealm(final String rideId, final Context context) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RealmResults<Ride> rides = realm.where(Ride.class)
-                        .equalTo("mId", ride.mId)
+                        .equalTo("mId", rideId)
                         .findAll();
 
                 if (rides.size() > 0) {
-                    rides.deleteAllFromRealm();
                     Toast.makeText(context,
-                            "Deleted ride: " + ride.mId,
+                            "Deleted ride: " + rides.first().mId,
                             Toast.LENGTH_LONG).show();
+                    rides.deleteFirstFromRealm();
                 }
             }
         });
