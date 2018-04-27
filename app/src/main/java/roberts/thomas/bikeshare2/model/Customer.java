@@ -40,6 +40,15 @@ public class Customer extends RealmObject {
         return mFirstName + " " + mLastName;
     }
 
+    public boolean takePayment(int amount) {
+        if (mAccountBalance.get() >= amount) {
+            mAccountBalance.decrement(amount);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String toString() {
         return getFullName() + " has a balance of " + mAccountBalance.toString() + " kr";
     }

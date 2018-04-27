@@ -32,30 +32,51 @@ public class Database {
         return sDatabase;
     }
 
-    private void createTestData() {
+    public void testData(Context context) {
         Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 1000);
-        addCustomerToRealm(customer1);
+        addCustomerToRealm(customer1, context);
 
-        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Men's bike", 50);
-        addBikeToRealm(bike1);
+        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Test Bike 1", "Christiania bike", 750);
+        addBikeToRealm(bike1, context);
 
         Ride ride1 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "ITU");
-        addRideToRealm(ride1);
-        ride1.endRide("Nørreport");
+        addRideToRealm(ride1, context);
+        if (ride1.endRide("Nørreport")) {
+            Toast.makeText(context,
+                    ride1.mTotalPrice + " kr deducted from account",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context,
+                    "Unable to deducet " + ride1.mTotalPrice + " kr from account",
+                    Toast.LENGTH_LONG).show();
+        }
 
         Ride ride2 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "Nørreport");
+        addRideToRealm(ride2, context);
         ride2.endRide("Home");
+        if (ride2.endRide("Nørreport")) {
+            Toast.makeText(context,
+                    ride2.mTotalPrice + " kr deducted from account",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context,
+                    "Unable to deduct " + ride2.mTotalPrice + " kr from account",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  CUSTOMER
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addCustomerToRealm(final Customer customer) {
+    public void addCustomerToRealm(final Customer customer, final Context context) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(customer);
+                realm.copyToRealmOrUpdate(customer);
+                Toast.makeText(context,
+                        "Added customer: " + customer.getFullName() + " (" + customer.mId + ")",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -81,7 +102,9 @@ public class Database {
 
                 if (customers.size() > 0) {
                     customers.deleteAllFromRealm();
-                    Toast.makeText(context, "Deleted customer " + customer.mId, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,
+                            "Deleted customer: " + customer.getFullName() + " (" + customer.mId + ")",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -91,11 +114,14 @@ public class Database {
     //  BIKE
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addBikeToRealm(final Bike bike) {
+    public void addBikeToRealm(final Bike bike, final Context context) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(bike);
+                realm.copyToRealmOrUpdate(bike);
+                Toast.makeText(context,
+                        "Added bike: " + bike.mBikeName + " (" + bike.mId + ")",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -127,7 +153,9 @@ public class Database {
 
                 if (bikes.size() > 0) {
                     bikes.deleteAllFromRealm();
-                    Toast.makeText(context, "Deleted customer " + bike.mId, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,
+                            "Deleted bike: " + bike.mBikeName + "(" + bike.mId + ")",
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -137,11 +165,12 @@ public class Database {
     //  RIDE
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addRideToRealm(final Ride ride) {
+    public void addRideToRealm(final Ride ride, final Context context) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.copyToRealm(ride);
+                realm.copyToRealmOrUpdate(ride);
+                Toast.makeText(context, "Added ride: " + ride.mId, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -173,7 +202,9 @@ public class Database {
 
                 if (rides.size() > 0) {
                     rides.deleteAllFromRealm();
-                    Toast.makeText(context, "Deleted customer " + ride.mId, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,
+                            "Deleted ride: " + ride.mId,
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

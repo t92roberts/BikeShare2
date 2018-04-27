@@ -24,7 +24,7 @@ public class Ride extends RealmObject {
     public String mEndLocation;
 
     public boolean mIsActive;
-    public int mRideTotalPrice;
+    public int mTotalPrice;
 
     public Ride() {
 
@@ -42,21 +42,28 @@ public class Ride extends RealmObject {
         mBike.mIsBeingRidden = true;
     }
 
-    public void endRide(String endLocation) {
+    public boolean endRide(String endLocation) {
         mEndTime = new Date();
         mEndLocation = endLocation;
 
         mIsActive = false;
         mBike.mIsBeingRidden = false;
 
-        mRideTotalPrice = calculateRidePrice();
+        mTotalPrice = calculateRidePrice();
+
+        return mCustomer.takePayment(mTotalPrice);
     }
 
     private int calculateRidePrice() {
         long milliseconds = mEndTime.getTime() - mStartTime.getTime();
-        long hours = milliseconds / 3600000;
-        long price = hours * mBike.mPricePerHour;
-        return (int) price;
+        long hours = (milliseconds / 3600000);
+
+        if (hours < 1) {
+            // Charge a minimum of 1 hour
+            return mBike.mPricePerHour;
+        } else {
+            return (int)(hours * mBike.mPricePerHour);
+        }
     }
 
     private String getFormattedStartTime() {
