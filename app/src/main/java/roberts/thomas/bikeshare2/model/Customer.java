@@ -9,44 +9,15 @@ import io.realm.annotations.PrimaryKey;
 
 public class Customer extends RealmObject {
     @PrimaryKey
-    private String mId;
+    public String mId;
 
-    private String mFirstName, mLastName;
-    private BankAccount mBankAccount;
+    public String mFirstName, mLastName;
+    public String mBankAccountId;
 
-    public Customer() {
-
-    }
-
-    public String getId() {
-        return mId;
-    }
-
-    public void setId(String id) {
+    public Customer(String id, String firstName, String lastName, String bankAccountId) {
         mId = id;
-    }
-
-    public String getFirstName() {
-        return mFirstName;
-    }
-
-    public void setFirstName(String firstName) {
         mFirstName = firstName;
-    }
-
-    public String getLastName() {
-        return mLastName;
-    }
-
-    public void setLastName(String lastName) {
         mLastName = lastName;
-    }
-
-    public BankAccount getBankAccount() {
-        return mBankAccount;
-    }
-
-    public void setBankAccount(BankAccount bankAccount) {
-        mBankAccount = bankAccount;
+        mBankAccountId = bankAccountId;
     }
 }
