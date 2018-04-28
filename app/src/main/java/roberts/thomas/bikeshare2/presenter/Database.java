@@ -3,6 +3,7 @@ package roberts.thomas.bikeshare2.presenter;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
@@ -32,50 +33,63 @@ public class Database {
         return sDatabase;
     }
 
-    public void testData(Context context) {
-        Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 1000);
-        addCustomerToRealm(customer1, context);
+    public void testData(Context context, boolean displayToasts) {
+        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Test Bike 1", "Christiania bike", 75);
+        addBikeToRealm(bike1, context, displayToasts);
 
-        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Test Bike 1", "Christiania bike", 750);
-        addBikeToRealm(bike1, context);
+        Bike bike2 = new Bike(UUID.randomUUID().toString(), "Test Bike 2", "Men's bike", 50);
+        addBikeToRealm(bike2, context, displayToasts);
+
+        /*Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 100);
+        addCustomerToRealm(customer1, context, displayToasts);
 
         Ride ride1 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "ITU");
-        addRideToRealm(ride1, context);
-        if (ride1.endRide("Nørreport")) {
-            Toast.makeText(context,
-                    ride1.mTotalPrice + " kr deducted from account",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context,
-                    "Unable to deducet " + ride1.mTotalPrice + " kr from account",
-                    Toast.LENGTH_LONG).show();
+        addRideToRealm(ride1, context, displayToasts);
+
+        boolean success1 = ride1.endRide("Nørreport");
+        if (displayToasts) {
+            if (success1) {
+                Toast.makeText(context,
+                        ride1.mTotalPrice + " kr deducted from account",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context,
+                        "Unable to deduct " + ride1.mTotalPrice + " kr from account",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
 
         Ride ride2 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "Nørreport");
-        addRideToRealm(ride2, context);
-        if (ride2.endRide("Home")) {
-            Toast.makeText(context,
-                    ride2.mTotalPrice + " kr deducted from account",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context,
-                    "Unable to deduct " + ride2.mTotalPrice + " kr from account",
-                    Toast.LENGTH_LONG).show();
-        }
+        addRideToRealm(ride2, context, displayToasts);
+
+        boolean success2 = ride2.endRide("Home");
+        if (displayToasts) {
+            if (success2) {
+                Toast.makeText(context,
+                        ride2.mTotalPrice + " kr deducted from account",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context,
+                        "Unable to deduct " + ride2.mTotalPrice + " kr from account",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }*/
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  CUSTOMER
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addCustomerToRealm(final Customer customer, final Context context) {
+    public void addCustomerToRealm(final Customer customer, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(customer);
-                Toast.makeText(context,
-                        "Added customer: " + customer.getFullName() + " (" + customer.mId + ")",
-                        Toast.LENGTH_LONG).show();
+                if (displayToast) {
+                    Toast.makeText(context,
+                            "Added customer: " + customer.getFullName() + " (" + customer.mId + ")",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -86,12 +100,12 @@ public class Database {
                 .findFirst();
     }
 
-    public RealmResults<Customer> getAllCustomersFromRealm() {
+    public List<Customer> getAllCustomersFromRealm() {
         return sRealm.where(Customer.class)
                 .findAll();
     }
 
-    public void deleteCustomerFromRealm(final String customerId, final Context context) {
+    public void deleteCustomerFromRealm(final String customerId, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -100,10 +114,12 @@ public class Database {
                         .findAll();
 
                 if (customers.size() > 0) {
-                    Toast.makeText(context,
-                            "Deleted customer: " + customers.first().getFullName() +
-                                    " (" + customers.first().mId + ")",
-                            Toast.LENGTH_LONG).show();
+                    if (displayToast) {
+                        Toast.makeText(context,
+                                "Deleted customer: " + customers.first().getFullName() +
+                                        " (" + customers.first().mId + ")",
+                                Toast.LENGTH_LONG).show();
+                    }
                     customers.deleteFirstFromRealm();
                 }
             }
@@ -114,14 +130,16 @@ public class Database {
     //  BIKE
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addBikeToRealm(final Bike bike, final Context context) {
+    public void addBikeToRealm(final Bike bike, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(bike);
-                Toast.makeText(context,
-                        "Added bike: " + bike.mBikeName + " (" + bike.mId + ")",
-                        Toast.LENGTH_LONG).show();
+                if (displayToast) {
+                    Toast.makeText(context,
+                            "Added bike: " + bike.mBikeName + " (" + bike.mId + ")",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -132,18 +150,18 @@ public class Database {
                 .findFirst();
     }
 
-    public RealmResults<Bike> getAllBikesFromRealm() {
+    public List<Bike> getAllBikesFromRealm() {
         return sRealm.where(Bike.class)
                 .findAll();
     }
 
-    public RealmResults<Bike> getAllActiveBikesFromRealm(boolean isBeingRidden) {
+    public List<Bike> getAllActiveBikesFromRealm(boolean isBeingRidden) {
         return sRealm.where(Bike.class)
                 .equalTo("mIsBeingRidden", isBeingRidden)
                 .findAll();
     }
 
-    public void deleteBikeFromRealm(final String bikeId, final Context context) {
+    public void deleteBikeFromRealm(final String bikeId, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -152,9 +170,11 @@ public class Database {
                         .findAll();
 
                 if (bikes.size() > 0) {
-                    Toast.makeText(context,
-                            "Deleted bike: " + bikes.first().mBikeName + "(" + bikes.first().mId + ")",
-                            Toast.LENGTH_LONG).show();
+                    if (displayToast) {
+                        Toast.makeText(context,
+                                "Deleted bike: " + bikes.first().mBikeName + " (" + bikes.first().mId + ")",
+                                Toast.LENGTH_LONG).show();
+                    }
                     bikes.deleteFirstFromRealm();
                 }
             }
@@ -165,12 +185,14 @@ public class Database {
     //  RIDE
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addRideToRealm(final Ride ride, final Context context) {
+    public void addRideToRealm(final Ride ride, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(ride);
-                Toast.makeText(context, "Added ride: " + ride.mId, Toast.LENGTH_LONG).show();
+                if (displayToast) {
+                    Toast.makeText(context, "Added ride: " + ride.mId, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -181,18 +203,18 @@ public class Database {
                 .findFirst();
     }
 
-    public RealmResults<Ride> getAllRidesFromRealm() {
+    public List<Ride> getAllRidesFromRealm() {
         return sRealm.where(Ride.class)
                 .findAll();
     }
 
-    public RealmResults<Ride> getAllActiveRidesFromRealm(boolean isActive) {
+    public List<Ride> getAllActiveRidesFromRealm(boolean isActive) {
         return sRealm.where(Ride.class)
                 .equalTo("mIsActive", isActive)
                 .findAll();
     }
 
-    public void deleteRideFromRealm(final String rideId, final Context context) {
+    public void deleteRideFromRealm(final String rideId, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -201,9 +223,11 @@ public class Database {
                         .findAll();
 
                 if (rides.size() > 0) {
-                    Toast.makeText(context,
-                            "Deleted ride: " + rides.first().mId,
-                            Toast.LENGTH_LONG).show();
+                    if (displayToast) {
+                        Toast.makeText(context,
+                                "Deleted ride: " + rides.first().mId,
+                                Toast.LENGTH_LONG).show();
+                    }
                     rides.deleteFirstFromRealm();
                 }
             }

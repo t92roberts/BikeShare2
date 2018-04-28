@@ -44,6 +44,6 @@ public class Bike extends RealmObject {
         return mBikeName +
                 " is a " + mBikeType +
                 " that costs " + mPricePerHour + " kr per hour" +
-                " and is currently " + (mIsBeingRidden ? "" : "not") +" being ridden";
+                " and is currently" + (mIsBeingRidden ? "" : " not") +" being ridden";
     }
 }

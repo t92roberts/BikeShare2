@@ -28,6 +28,7 @@ public class MainMenuPagerActivity extends FragmentActivity {
 
         // Add the fragments that will be paged to the ArrayList
         final ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(AvailableBikesListFragment.newInstance());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentPagerAdapter(fragmentManager) {
