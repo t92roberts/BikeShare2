@@ -22,18 +22,11 @@ public class Customer extends RealmObject {
         mAccountBalance = MutableRealmInteger.valueOf(0);
     }
 
-    public Customer(String id, String firstName, String lastName) {
+    public Customer(String id, String firstName, String lastName, int accountBalance) {
         mId = id;
         mFirstName = firstName;
         mLastName = lastName;
-        mAccountBalance = MutableRealmInteger.valueOf(0);
-    }
-
-    public Customer(String id, String firstName, String lastName, int startingBalance) {
-        mId = id;
-        mFirstName = firstName;
-        mLastName = lastName;
-        mAccountBalance = MutableRealmInteger.valueOf(startingBalance);
+        mAccountBalance = MutableRealmInteger.valueOf(accountBalance);
     }
 
     public String getFullName() {
