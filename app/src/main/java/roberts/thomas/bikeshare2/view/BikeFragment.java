@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -44,7 +45,7 @@ public class BikeFragment extends Fragment {
     private ImageView mBikeImageView;
     private ImageButton mAddPhotoButton;
 
-    private TextView mBikeNameTextView, mBikeTypeTextView, mPricePerHourTextView, mCurrentLocationTextView;
+    private TextView mBikeTypeTextView, mPricePerHourTextView, mCurrentLocationTextView;
 
     public static BikeFragment newInstance(String bikeId) {
         Bundle args = new Bundle();
@@ -111,18 +112,20 @@ public class BikeFragment extends Fragment {
 
         /////////////////////////////////////////////////////////////////////////////////
 
-        mBikeNameTextView = view.findViewById(R.id.text_view_bike_name);
-        mBikeNameTextView.setText(mBike.mBikeName);
-
         mBikeTypeTextView = view.findViewById(R.id.text_view_bike_type);
-        mBikeTypeTextView.setText(mBike.mBikeType);
-
         mPricePerHourTextView = view.findViewById(R.id.text_view_price_per_hour);
-        mPricePerHourTextView.setText(String.valueOf(mBike.mPricePerHour));
-
         mCurrentLocationTextView = view.findViewById(R.id.text_view_location);
 
-        mCurrentLocationTextView.setText(mBike.mIsBeingRidden ? "Being ridden" : mBike.mCurrentLocation);
+        mBikeTypeTextView.setText(mBike.mType);
+        mPricePerHourTextView.setText(String.valueOf(mBike.mPricePerHour));
+
+        if (mBike.mIsBeingRidden) {
+            mCurrentLocationTextView.setTextColor(Color.RED);
+            mCurrentLocationTextView.setText("Being ridden...");
+        } else {
+            mCurrentLocationTextView.setTextColor(Color.GREEN);
+            mCurrentLocationTextView.setText(mBike.mCurrentLocation);
+        }
 
         return view;
     }

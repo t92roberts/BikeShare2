@@ -11,27 +11,25 @@ public class Bike extends RealmObject {
     @PrimaryKey
     public String mId;
 
-    public String mBikeName;
-    public String mBikeType;
+    public String mType;
     public String mCurrentLocation;
     public int mPricePerHour;
 
-    public byte[] mPhoto;
-
     public boolean mIsBeingRidden;
+
+    public byte[] mPhoto;
 
     public Bike() {
 
     }
 
-    public Bike(String id, String bikeName, String bikeType, String currentLocation, int pricePerHour, byte[] photo, boolean isBeingRidden) {
+    public Bike(String id, String type, String currentLocation, int pricePerHour, boolean isBeingRidden, byte[] photo) {
         mId = id;
-        mBikeName = bikeName;
-        mBikeType = bikeType;
+        mType = type;
         mCurrentLocation = currentLocation;
         mPricePerHour = pricePerHour;
-        mPhoto = photo;
         mIsBeingRidden = isBeingRidden;
+        mPhoto = photo;
     }
 
     public String getPhotoFileName() {
@@ -39,9 +37,7 @@ public class Bike extends RealmObject {
     }
 
     public String toString() {
-        return mBikeName +
-                " is a " + mBikeType +
-                " that costs " + mPricePerHour + " kr per hour" +
+        return mType + " that costs " + mPricePerHour + " kr per hour" +
                 " and is currently" + (mIsBeingRidden ? " being ridden" : " at ") + mCurrentLocation;
     }
 }

@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -38,10 +37,10 @@ public class Database {
     }
 
     public void testData(Context context, boolean displayToasts) {
-        Bike bike1 = new Bike("1", "Test Bike 1", "Christiania bike", "ITU", 75, null, false);
+        Bike bike1 = new Bike("1", "Christiania bike", "ITU", 75, false, null);
         addBikeToRealm(bike1, context, displayToasts);
 
-        Bike bike2 = new Bike("2", "Test Bike 2", "Men's bike", "Nørreport", 50, null, false);
+        Bike bike2 = new Bike("2", "Men's bike", "Nørreport", 50, true, null);
         addBikeToRealm(bike2, context, displayToasts);
 
         /*Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 100);
@@ -141,7 +140,7 @@ public class Database {
                 realm.copyToRealmOrUpdate(bike);
                 if (displayToast) {
                     Toast.makeText(context,
-                            "Added bike: " + bike.mBikeName + " (" + bike.mId + ")",
+                            "Added bike: " + bike.mId,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -159,7 +158,7 @@ public class Database {
                 .findAll();
     }
 
-    public List<Bike> getAllActiveBikesFromRealm(boolean isBeingRidden) {
+    public List<Bike> getAllBikesFromRealm(boolean isBeingRidden) {
         return sRealm.where(Bike.class)
                 .equalTo("mIsBeingRidden", isBeingRidden)
                 .findAll();
@@ -176,7 +175,7 @@ public class Database {
                 if (bikes.size() > 0) {
                     if (displayToast) {
                         Toast.makeText(context,
-                                "Deleted bike: " + bikes.first().mBikeName + " (" + bikes.first().mId + ")",
+                                "Deleted bike: " + bikes.first().mId,
                                 Toast.LENGTH_LONG).show();
                     }
                     bikes.deleteFirstFromRealm();

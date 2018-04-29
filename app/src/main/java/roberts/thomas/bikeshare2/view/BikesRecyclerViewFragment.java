@@ -1,6 +1,7 @@
 package roberts.thomas.bikeshare2.view;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -9,11 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 import roberts.thomas.bikeshare2.R;
+import roberts.thomas.bikeshare2.helpers.PictureUtils;
 import roberts.thomas.bikeshare2.model.Bike;
 import roberts.thomas.bikeshare2.presenter.Database;
 
@@ -21,21 +25,21 @@ import roberts.thomas.bikeshare2.presenter.Database;
  * Created by Tom on 28/04/2018.
  */
 
-public class AvailableBikesListFragment extends Fragment {
+public class BikesRecyclerViewFragment extends Fragment {
 
     // Bundle arguments
-    private static final String ARG_FRAGMENT_NAME = "Available Bikes";
+    private static final String ARG_ONLY_VACANT_BIKES = "vacant_bikes";
 
     private static Database sDatabase;
 
     private RecyclerView mBikesList;
     private BikesAdapter mAdapter;
 
-    public static AvailableBikesListFragment newInstance(String fragmentName) {
+    public static BikesRecyclerViewFragment newInstance(boolean onlyVacantBikes) {
         Bundle args = new Bundle();
-        args.putString(ARG_FRAGMENT_NAME, fragmentName);
+        args.putBoolean(ARG_ONLY_VACANT_BIKES, onlyVacantBikes);
 
-        AvailableBikesListFragment fragment = new AvailableBikesListFragment();
+        BikesRecyclerViewFragment fragment = new BikesRecyclerViewFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,9 +54,17 @@ public class AvailableBikesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recycler_view, container, false);
 
+        boolean onlyVacantBikes = getArguments().getBoolean(ARG_ONLY_VACANT_BIKES);
+
         mBikesList = view.findViewById(R.id.recycler_view);
         mBikesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new BikesAdapter(sDatabase.getAllActiveBikesFromRealm(false));
+
+        if (onlyVacantBikes) {
+            mAdapter = new BikesAdapter(sDatabase.getAllBikesFromRealm(false));
+        } else {
+            mAdapter = new BikesAdapter(sDatabase.getAllBikesFromRealm());
+        }
+
         mBikesList.setAdapter(mAdapter);
 
         return view;
@@ -61,15 +73,14 @@ public class AvailableBikesListFragment extends Fragment {
     public class BikeHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private Bike mBike;
 
-        //private ImageView mBikeImageView;
-        private TextView mBikeNameTextView, mBikeTypeTextView, mPricePerHourTextView;
+        private ImageView mBikeImageView;
+        private TextView mBikeTypeTextView, mPricePerHourTextView;
 
         public BikeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_bike, parent, false));
 
-            //mBikeImageView = itemView.findViewById(R.id.image_view_bike_photo);
+            mBikeImageView = itemView.findViewById(R.id.image_view_bike_photo);
 
-            mBikeNameTextView = itemView.findViewById(R.id.text_view_bike_name);
             mBikeTypeTextView = itemView.findViewById(R.id.text_view_bike_type);
             mPricePerHourTextView = itemView.findViewById(R.id.text_view_price_per_hour);
 
@@ -79,11 +90,18 @@ public class AvailableBikesListFragment extends Fragment {
         public void bind(Bike bike) {
             mBike = bike;
 
-            //mBikeImageView.setImageBitmap(bike.mPhoto);
+            // Load the bike image (if it exists)
+            File mPhotoFile = sDatabase.getBikePhotoFile(bike);
 
-            mBikeNameTextView.setText(bike.mBikeName);
-            mBikeTypeTextView.setText(bike.mBikeType);
-            mPricePerHourTextView.setText(bike.mPricePerHour + " kr");
+            if (mPhotoFile == null || !mPhotoFile.exists()) {
+                mBikeImageView.setImageDrawable(null);
+            } else {
+                Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
+                mBikeImageView.setImageBitmap(bitmap);
+            }
+
+            mBikeTypeTextView.setText(bike.mType);
+            mPricePerHourTextView.setText(String.valueOf(bike.mPricePerHour));
         }
 
         @Override
@@ -91,7 +109,7 @@ public class AvailableBikesListFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             builder.setTitle("Delete bike")
-                    .setMessage("Are you sure you want to delete bike: '" + mBike.mBikeName + "'?");
+                    .setMessage("Are you sure you want to delete this " + mBike.mType + "?");
 
             final int position = getAdapterPosition();
 
