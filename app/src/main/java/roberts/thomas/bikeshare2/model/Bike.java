@@ -34,6 +34,10 @@ public class Bike extends RealmObject {
         mIsBeingRidden = isBeingRidden;
     }
 
+    public String getPhotoFileName() {
+        return "IMG_" + mId + ".jpg";
+    }
+
     public String toString() {
         return mBikeName +
                 " is a " + mBikeType +

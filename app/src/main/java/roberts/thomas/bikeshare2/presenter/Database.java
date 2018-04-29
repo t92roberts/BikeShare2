@@ -3,6 +3,7 @@ package roberts.thomas.bikeshare2.presenter;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,27 +18,30 @@ import roberts.thomas.bikeshare2.model.Ride;
  */
 
 public class Database {
+    private Context mContext;
     private static Database sDatabase;
     private static Realm sRealm;
 
-    private Database () {
-        sRealm = Realm.getDefaultInstance();
-    }
-
-    public static Database get() {
+    public static Database get(Context context) {
         if (sDatabase == null) {
             // the singleton hasn't been created yet, initialise it
-            sDatabase = new Database();
+            sDatabase = new Database(context);
         }
 
         return sDatabase;
     }
 
+    private Database (Context context) {
+        mContext = context.getApplicationContext();
+        sRealm = Realm.getDefaultInstance();
+        testData(mContext, true);
+    }
+
     public void testData(Context context, boolean displayToasts) {
-        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Test Bike 1", "Christiania bike", "ITU", 75, null, false);
+        Bike bike1 = new Bike("1", "Test Bike 1", "Christiania bike", "ITU", 75, null, false);
         addBikeToRealm(bike1, context, displayToasts);
 
-        Bike bike2 = new Bike(UUID.randomUUID().toString(), "Test Bike 2", "Men's bike", "Nørreport", 50, null, false);
+        Bike bike2 = new Bike("2", "Test Bike 2", "Men's bike", "Nørreport", 50, null, false);
         addBikeToRealm(bike2, context, displayToasts);
 
         /*Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 100);
@@ -179,6 +183,11 @@ public class Database {
                 }
             }
         });
+    }
+
+    public File getBikePhotoFile(Bike bike) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, bike.getPhotoFileName());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

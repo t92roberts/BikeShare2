@@ -22,16 +22,28 @@ import roberts.thomas.bikeshare2.presenter.Database;
  */
 
 public class AvailableBikesListFragment extends Fragment {
+
+    // Bundle arguments
+    private static final String ARG_FRAGMENT_NAME = "Available Bikes";
+
     private static Database sDatabase;
 
     private RecyclerView mBikesList;
     private BikesAdapter mAdapter;
 
+    public static AvailableBikesListFragment newInstance(String fragmentName) {
+        Bundle args = new Bundle();
+        args.putString(ARG_FRAGMENT_NAME, fragmentName);
+
+        AvailableBikesListFragment fragment = new AvailableBikesListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sDatabase = Database.get();
-        sDatabase.testData(getContext(), true);
+        sDatabase = Database.get(getActivity());
     }
 
     @Override
@@ -137,9 +149,5 @@ public class AvailableBikesListFragment extends Fragment {
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, mBikes.size());
         }
-    }
-
-    public static AvailableBikesListFragment newInstance() {
-        return new AvailableBikesListFragment();
     }
 }

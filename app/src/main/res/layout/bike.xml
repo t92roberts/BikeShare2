@@ -11,48 +11,70 @@
         android:id="@+id/image_view_bike_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/darker_gray"
         android:scaleType="centerInside"
-        android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_photo"
+        app:layout_constraintBottom_toTopOf="@+id/image_button_add_photo"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_view_bike_name"
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageButton
+        android:id="@+id/image_button_add_photo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_photo"
+        app:layout_constraintEnd_toEndOf="@+id/image_view_bike_photo"
+        app:layout_constraintStart_toStartOf="@+id/image_view_bike_photo" />
+
+    <TextView
+        android:id="@+id/text_view_bike_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Bike Name"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bike_info"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_divide"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_photo" />
 
     <TextView
         android:id="@+id/text_view_bike_type"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="Bike Type"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_location_label"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_divide"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_bike_info" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_bike_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
 
     <TextView
         android:id="@+id/text_view_price_per_hour"
@@ -62,23 +84,46 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:gravity="right"
         android:text="Price/Hour"
-        android:textAlignment="center"
+        android:textAlignment="textEnd"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_location_label"
+        app:layout_constraintEnd_toStartOf="@+id/text_view_currency"
+        app:layout_constraintStart_toStartOf="@+id/guideline_vertical_50"
+        app:layout_constraintTop_toTopOf="@+id/guideline_photo" />
+
+    <TextView
+        android:id="@+id/text_view_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="left"
+        android:text="@string/currency"
+        android:textAlignment="textStart"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_location_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline_vertical_divide"
         app:layout_constraintTop_toTopOf="@+id/guideline_photo" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_location_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
 
     <TextView
         android:id="@+id/tex_view_location_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Current Location"
+        android:text="@string/current_location"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_location"
@@ -86,13 +131,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_location_label" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
     <TextView
         android:id="@+id/text_view_location"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Location"
         android:textAlignment="center"
@@ -103,38 +155,24 @@
         app:layout_constraintTop_toTopOf="@+id/guideline_location" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_vertical_divide"
+        android:id="@+id/guideline_vertical_50"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_photo"
+        android:id="@+id/guideline_vertical_25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_bike_info"
+        android:id="@+id/guideline_vertical_75"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_location_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
 
 </android.support.constraint.ConstraintLayout>
