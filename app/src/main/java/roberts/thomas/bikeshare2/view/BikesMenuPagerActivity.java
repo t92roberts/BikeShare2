@@ -15,7 +15,7 @@ import roberts.thomas.bikeshare2.R;
  * Created by Tom on 27/04/2018.
  */
 
-public class MainMenuPagerActivity extends FragmentActivity {
+public class BikesMenuPagerActivity extends FragmentActivity {
 
     private ViewPager mViewPager;
 
@@ -28,9 +28,9 @@ public class MainMenuPagerActivity extends FragmentActivity {
 
         // Add the fragments that will be paged to the ArrayList
         final ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(BikesRecyclerViewFragment.newInstance(false));
         fragments.add(BikeFragment.newInstance("1"));
         fragments.add(BikeFragment.newInstance("2"));
-        fragments.add(BikesRecyclerViewFragment.newInstance(false));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentPagerAdapter(fragmentManager) {

@@ -28,16 +28,16 @@ import roberts.thomas.bikeshare2.presenter.Database;
 public class BikesRecyclerViewFragment extends Fragment {
 
     // Bundle arguments
-    private static final String ARG_ONLY_VACANT_BIKES = "vacant_bikes";
+    private static final String ARG_SHOW_ONLY_VACANT_BIKES = "vacant_bikes";
 
     private static Database sDatabase;
 
     private RecyclerView mBikesList;
     private BikesAdapter mAdapter;
 
-    public static BikesRecyclerViewFragment newInstance(boolean onlyVacantBikes) {
+    public static BikesRecyclerViewFragment newInstance(boolean showOnlyVacantBikes) {
         Bundle args = new Bundle();
-        args.putBoolean(ARG_ONLY_VACANT_BIKES, onlyVacantBikes);
+        args.putBoolean(ARG_SHOW_ONLY_VACANT_BIKES, showOnlyVacantBikes);
 
         BikesRecyclerViewFragment fragment = new BikesRecyclerViewFragment();
         fragment.setArguments(args);
@@ -54,7 +54,7 @@ public class BikesRecyclerViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recycler_view, container, false);
 
-        boolean onlyVacantBikes = getArguments().getBoolean(ARG_ONLY_VACANT_BIKES);
+        boolean onlyVacantBikes = getArguments().getBoolean(ARG_SHOW_ONLY_VACANT_BIKES);
 
         mBikesList = view.findViewById(R.id.recycler_view);
         mBikesList.setLayoutManager(new LinearLayoutManager(getActivity()));
