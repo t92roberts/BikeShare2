@@ -34,10 +34,10 @@ public class Database {
     }
 
     public void testData(Context context, boolean displayToasts) {
-        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Test Bike 1", "Christiania bike", 75);
+        Bike bike1 = new Bike(UUID.randomUUID().toString(), "Test Bike 1", "Christiania bike", "ITU", 75, null, false);
         addBikeToRealm(bike1, context, displayToasts);
 
-        Bike bike2 = new Bike(UUID.randomUUID().toString(), "Test Bike 2", "Men's bike", 50);
+        Bike bike2 = new Bike(UUID.randomUUID().toString(), "Test Bike 2", "Men's bike", "Nørreport", 50, null, false);
         addBikeToRealm(bike2, context, displayToasts);
 
         /*Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 100);

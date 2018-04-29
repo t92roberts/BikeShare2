@@ -22,7 +22,7 @@ public class MainMenuPagerActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu_view_pager);
+        setContentView(R.layout.main_menu);
 
         mViewPager = findViewById(R.id.view_pager);
 
