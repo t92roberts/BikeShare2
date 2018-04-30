@@ -136,6 +136,11 @@ public class AddBikeFragment extends Fragment {
                     mTypeEditText.setText("");
                     mPricePerHourEditText.setText("");
                     mCurrentLocationEditText.setText("");
+
+                    Intent intent = new Intent(getActivity(), BikeActivity.class);
+                    intent.putExtra("arg", mBike.mId);
+                    startActivity(intent);
+
                     getActivity().recreate();
                 }
             }
