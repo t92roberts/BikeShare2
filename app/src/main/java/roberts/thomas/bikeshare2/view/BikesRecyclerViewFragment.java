@@ -109,7 +109,7 @@ public class BikesRecyclerViewFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), BikeActivity.class);
-            intent.putExtra("bikeId", mBike.mId);
+            intent.putExtra("arg", mBike.mId);
             startActivity(intent);
         }
 
