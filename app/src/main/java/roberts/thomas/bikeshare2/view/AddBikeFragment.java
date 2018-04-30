@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,12 +12,14 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import roberts.thomas.bikeshare2.R;
 import roberts.thomas.bikeshare2.helpers.PictureUtils;
@@ -26,13 +27,10 @@ import roberts.thomas.bikeshare2.model.Bike;
 import roberts.thomas.bikeshare2.presenter.Database;
 
 /**
- * Created by Tom on 29/04/2018.
+ * Created by Tom on 30/04/2018.
  */
 
-public class BikeFragment extends Fragment {
-
-    // Bundle arguments
-    private static final String ARG_BIKE_ID = "bike_id";
+public class AddBikeFragment extends Fragment {
 
     // Intent request codes
     private static final int REQUEST_PHOTO = 0;
@@ -44,15 +42,15 @@ public class BikeFragment extends Fragment {
     private File mPhotoFile;
     private ImageView mBikeImageView;
     private ImageButton mAddPhotoButton;
+    private EditText mTypeEditText, mPricePerHourEditText, mCurrentLocationEditText;
+    private Button mAddBikeButton;
 
-    private TextView mBikeTypeTextView, mPricePerHourTextView, mCurrentLocationTextView;
+    public static AddBikeFragment newInstance() {
+        /*Bundle args = new Bundle();
+        args.putString(ARG_BIKE_ID, bikeId);*/
 
-    public static BikeFragment newInstance(String bikeId) {
-        Bundle args = new Bundle();
-        args.putString(ARG_BIKE_ID, bikeId);
-
-        BikeFragment fragment = new BikeFragment();
-        fragment.setArguments(args);
+        AddBikeFragment fragment = new AddBikeFragment();
+        //fragment.setArguments(args);
         return fragment;
     }
 
@@ -61,15 +59,14 @@ public class BikeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sDatabase = Database.get(getActivity());
 
-        String bikeId = getArguments().getString(ARG_BIKE_ID);
-        mBike = sDatabase.getBikeFromRealm(bikeId);
+        mBike = new Bike(UUID.randomUUID().toString(), "", "", 0, false);
 
         mPhotoFile = sDatabase.getBikePhotoFile(mBike);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bike, container, false);
+        View view = inflater.inflate(R.layout.add_bike, container, false);
 
         mBikeImageView = view.findViewById(R.id.image_view_bike_photo);
         updatePhotoView();
@@ -112,20 +109,37 @@ public class BikeFragment extends Fragment {
 
         /////////////////////////////////////////////////////////////////////////////////
 
-        mBikeTypeTextView = view.findViewById(R.id.text_view_type);
-        mPricePerHourTextView = view.findViewById(R.id.text_view_price_per_hour);
-        mCurrentLocationTextView = view.findViewById(R.id.text_view_location);
+        mTypeEditText = view.findViewById(R.id.edit_text_type);
+        mPricePerHourEditText = view.findViewById(R.id.edit_text_price_per_hour);
+        mCurrentLocationEditText = view.findViewById(R.id.edit_text_current_location);
 
-        mBikeTypeTextView.setText(mBike.mType);
-        mPricePerHourTextView.setText(String.valueOf(mBike.mPricePerHour));
+        mAddBikeButton = view.findViewById(R.id.button_add_bike);
 
-        if (mBike.mIsBeingRidden) {
-            mCurrentLocationTextView.setTextColor(Color.RED);
-            mCurrentLocationTextView.setText("Being ridden...");
-        } else {
-            mCurrentLocationTextView.setTextColor(Color.GREEN);
-            mCurrentLocationTextView.setText(mBike.mCurrentLocation);
-        }
+        mAddBikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String bikeTypeString = mTypeEditText.getText().toString().trim();
+                String pricePerHourString = mPricePerHourEditText.getText().toString().trim();
+                String currentLocationString = mCurrentLocationEditText.getText().toString().trim();
+
+                boolean userHasInputData = bikeTypeString.length() > 0
+                        && pricePerHourString.length() > 0
+                        && currentLocationString.length() > 0;
+
+                if (userHasInputData) {
+                    mBike.mType = bikeTypeString;
+                    mBike.mPricePerHour = Integer.parseInt(pricePerHourString);
+                    mBike.mCurrentLocation = currentLocationString;
+
+                    sDatabase.addBikeToRealm(mBike, getActivity(), true);
+
+                    mTypeEditText.setText("");
+                    mPricePerHourEditText.setText("");
+                    mCurrentLocationEditText.setText("");
+                    getActivity().recreate();
+                }
+            }
+        });
 
         return view;
     }

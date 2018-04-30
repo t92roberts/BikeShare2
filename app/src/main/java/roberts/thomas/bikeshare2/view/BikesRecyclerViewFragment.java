@@ -81,7 +81,7 @@ public class BikesRecyclerViewFragment extends Fragment {
 
             mBikeImageView = itemView.findViewById(R.id.image_view_bike_photo);
 
-            mBikeTypeTextView = itemView.findViewById(R.id.text_view_bike_type);
+            mBikeTypeTextView = itemView.findViewById(R.id.text_view_type);
             mPricePerHourTextView = itemView.findViewById(R.id.text_view_price_per_hour);
 
             itemView.setOnLongClickListener(this);

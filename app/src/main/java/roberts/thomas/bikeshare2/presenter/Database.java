@@ -37,10 +37,10 @@ public class Database {
     }
 
     public void testData(Context context, boolean displayToasts) {
-        Bike bike1 = new Bike("1", "Christiania bike", "ITU", 75, false, null);
+        Bike bike1 = new Bike("Test1", "Test bike 1", "ITU", 75, false);
         addBikeToRealm(bike1, context, displayToasts);
 
-        Bike bike2 = new Bike("2", "Men's bike", "Nørreport", 50, true, null);
+        Bike bike2 = new Bike("Test2", "Test bike 2", "Nørreport", 50, true);
         addBikeToRealm(bike2, context, displayToasts);
 
         /*Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 100);
@@ -140,7 +140,7 @@ public class Database {
                 realm.copyToRealmOrUpdate(bike);
                 if (displayToast) {
                     Toast.makeText(context,
-                            "Added bike: " + bike.mId,
+                            "Added " + bike.mType,
                             Toast.LENGTH_LONG).show();
                 }
             }
