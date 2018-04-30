@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.BikeActivity"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="roberts.thomas.bikeshare2.fileprovider"

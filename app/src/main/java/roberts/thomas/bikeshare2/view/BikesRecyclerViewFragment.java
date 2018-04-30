@@ -1,6 +1,7 @@
 package roberts.thomas.bikeshare2.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,7 +71,7 @@ public class BikesRecyclerViewFragment extends Fragment {
         return view;
     }
 
-    public class BikeHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public class BikeHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private Bike mBike;
 
         private ImageView mBikeImageView;
@@ -84,6 +85,7 @@ public class BikesRecyclerViewFragment extends Fragment {
             mBikeTypeTextView = itemView.findViewById(R.id.text_view_type);
             mPricePerHourTextView = itemView.findViewById(R.id.text_view_price_per_hour);
 
+            itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
 
@@ -102,6 +104,13 @@ public class BikesRecyclerViewFragment extends Fragment {
 
             mBikeTypeTextView.setText(bike.mType);
             mPricePerHourTextView.setText(String.valueOf(bike.mPricePerHour));
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), BikeActivity.class);
+            intent.putExtra("bikeId", mBike.mId);
+            startActivity(intent);
         }
 
         @Override
