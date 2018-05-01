@@ -43,6 +43,6 @@ public class Customer extends RealmObject {
     }
 
     public String toString() {
-        return getFullName() + " has a balance of " + mAccountBalance.toString() + " kr";
+        return getFullName() + " has a balance of " + mAccountBalance.get().toString() + " kr";
     }
 }

@@ -13,16 +13,20 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import roberts.thomas.bikeshare2.R;
 import roberts.thomas.bikeshare2.helpers.PictureUtils;
 import roberts.thomas.bikeshare2.model.Bike;
+import roberts.thomas.bikeshare2.model.Customer;
+import roberts.thomas.bikeshare2.model.Ride;
 import roberts.thomas.bikeshare2.presenter.Database;
 
 /**
@@ -47,6 +51,8 @@ public class BikeFragment extends Fragment {
 
     private TextView mBikeTypeTextView, mPricePerHourTextView, mCurrentLocationTextView;
 
+    private Button mRentBikeButton;
+
     public static BikeFragment newInstance(String bikeId) {
         Bundle args = new Bundle();
         args.putString(ARG_BIKE_ID, bikeId);
@@ -64,6 +70,7 @@ public class BikeFragment extends Fragment {
         String bikeId = getArguments().getString(ARG_BIKE_ID);
         mBike = sDatabase.getBike(bikeId);
 
+        // Get the bike photo from the local filesystem
         mPhotoFile = sDatabase.getBikePhotoFile(mBike);
     }
 
@@ -115,6 +122,7 @@ public class BikeFragment extends Fragment {
         mBikeTypeTextView = view.findViewById(R.id.text_view_type);
         mPricePerHourTextView = view.findViewById(R.id.text_view_price_per_hour);
         mCurrentLocationTextView = view.findViewById(R.id.text_view_location);
+        mRentBikeButton = view.findViewById(R.id.button_rent_bike);
 
         mBikeTypeTextView.setText(mBike.mType);
         mPricePerHourTextView.setText(String.valueOf(mBike.mPricePerHour));
@@ -122,10 +130,31 @@ public class BikeFragment extends Fragment {
         if (mBike.mIsBeingRidden) {
             mCurrentLocationTextView.setTextColor(Color.RED);
             mCurrentLocationTextView.setText("Being ridden...");
+            mRentBikeButton.setEnabled(false);
         } else {
             mCurrentLocationTextView.setTextColor(Color.GREEN);
             mCurrentLocationTextView.setText(mBike.mCurrentBikeStand.mName);
+            mRentBikeButton.setEnabled(true);
         }
+
+        mRentBikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // In a real version of the app, the Customer would be authenticated and a
+                // Customer object would be stored during the session and accessed
+                Customer loggedInCustomer = sDatabase.getCustomer("johnSmith");
+
+                // Cannot modify managed Realm objects outside of a write transaction so
+                // create a 'new' bike with the same info but changing the isBeingRidden status
+                mBike = new Bike(mBike.mId, mBike.mType, mBike.mCurrentBikeStand, mBike.mPricePerHour, true);
+                sDatabase.createOrUpdateBike(mBike, getActivity(), false);
+
+                Ride newRide = new Ride(UUID.randomUUID().toString(), mBike, loggedInCustomer);
+                newRide.startRide(mBike.mCurrentBikeStand);
+
+                sDatabase.createOrUpdateRide(newRide, getActivity(), true);
+            }
+        });
 
         return view;
     }

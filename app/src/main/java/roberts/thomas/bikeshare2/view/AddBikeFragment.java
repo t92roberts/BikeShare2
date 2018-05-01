@@ -155,7 +155,7 @@ public class AddBikeFragment extends Fragment {
                             Integer.parseInt(pricePerHourString),
                             false);
 
-                    sDatabase.addBike(newBike, getActivity(), true);
+                    sDatabase.createOrUpdateBike(newBike, getActivity(), true);
 
                     Intent intent = new Intent(getActivity(), BikeActivity.class);
                     intent.putExtra("arg", newBike.mId);

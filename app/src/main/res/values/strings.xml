@@ -3,7 +3,8 @@
     <string name="balance">Balance:</string>
     <string name="add_funds">Add Funds</string>
     <string name="location">Location:</string>
-    <string name="currency">kr/hr</string>
+    <string name="currency">kr</string>
+    <string name="currency_per_hour">kr/hr</string>
     <string name="enter_a_type">Enter a type</string>
     <string name="select_a_location">Select a location</string>
     <string name="bike_type">Bike Type:</string>
@@ -11,4 +12,5 @@
     <string name="add_bike">Add Bike</string>
     <string name="photo_of_the_bike">Photo of the bike</string>
     <string name="button_to_capture_a_photo_of_the_bike">Button to capture a photo of the bike</string>
+    <string name="rent_bike">Rent Bike</string>
 </resources>

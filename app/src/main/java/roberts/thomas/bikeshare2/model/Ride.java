@@ -17,11 +17,11 @@ public class Ride extends RealmObject {
     public Bike mBike;
     public Customer mCustomer;
 
+    public BikeStand mStartLocation;
     public Date mStartTime;
-    public String mStartLocation;
 
+    public BikeStand mEndLocation;
     public Date mEndTime;
-    public String mEndLocation;
 
     public boolean mIsActive;
     public int mTotalPrice;
@@ -30,19 +30,20 @@ public class Ride extends RealmObject {
 
     }
 
-    public Ride(String id, Bike bike, Customer customer, String startLocation) {
+    public Ride(String id, Bike bike, Customer customer) {
         mId = id;
         mBike = bike;
         mCustomer = customer;
-
-        mStartTime = new Date();
-        mStartLocation = startLocation;
-
-        mIsActive = true;
-        mBike.mIsBeingRidden = true;
     }
 
-    public boolean endRide(String endLocation) {
+    public void startRide(BikeStand startLocation) {
+        mStartLocation = startLocation;
+        mStartTime = new Date();
+
+        mIsActive = true;
+    }
+
+    public void endRide(BikeStand endLocation) {
         mEndTime = new Date();
         mEndLocation = endLocation;
 
@@ -50,8 +51,7 @@ public class Ride extends RealmObject {
         mBike.mIsBeingRidden = false;
 
         mTotalPrice = calculateRidePrice();
-
-        return mCustomer.takePayment(mTotalPrice);
+        mCustomer.takePayment(mTotalPrice);
     }
 
     private int calculateRidePrice() {

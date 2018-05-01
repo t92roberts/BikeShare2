@@ -37,33 +37,34 @@ public class Database {
     private Database (Context context) {
         mContext = context.getApplicationContext();
         sRealm = Realm.getDefaultInstance();
-        testData(mContext, true);
+
+        testData(mContext, false);
     }
 
     public void testData(Context context, boolean displayToasts) {
         Location ituLoc = new Location("itu", 55.659011d, 12.590795d);
         BikeStand itu = new BikeStand("itu", "ITU", ituLoc);
-        addBikeStand(itu, context, displayToasts);
+        createOrUpdateBikeStand(itu, context, displayToasts);
 
         Location npLoc = new Location("np",55.683383d, 12.571811d);
         BikeStand np = new BikeStand("np", "Nørreport", npLoc);
-        addBikeStand(np, context, displayToasts);
+        createOrUpdateBikeStand(np, context, displayToasts);
 
         Location knLoc = new Location("kn",55.679551d, 12.585150d);
         BikeStand kn = new BikeStand("kn", "Kongens Nytorv", knLoc);
-        addBikeStand(kn, context, displayToasts);
+        createOrUpdateBikeStand(kn, context, displayToasts);
 
-        Bike bike1 = new Bike("Test1", "Test bike 1", itu, 75, false);
-        addBike(bike1, context, displayToasts);
+        Bike bike1 = new Bike("test1", "Test bike 1", itu, 75, false);
+        createOrUpdateBike(bike1, context, displayToasts);
 
-        Bike bike2 = new Bike("Test2", "Test bike 2", np, 50, true);
-        addBike(bike2, context, displayToasts);
+        Bike bike2 = new Bike("test2", "Test bike 2", np, 50, true);
+        createOrUpdateBike(bike2, context, displayToasts);
 
-        /*Customer customer1 = new Customer(UUID.randomUUID().toString(), "John", "Smith", 100);
-        addCustomer(customer1, context, displayToasts);
+        Customer johnSmith = new Customer("johnSmith", "John", "Smith", 100);
+        createOrUpdateCustomer(johnSmith, context, displayToasts);
 
-        Ride ride1 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "ITU");
-        addRide(ride1, context, displayToasts);
+        /*Ride ride1 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "ITU");
+        createOrUpdateRide(ride1, context, displayToasts);
 
         boolean success1 = ride1.endRide("Nørreport");
         if (displayToasts) {
@@ -79,7 +80,7 @@ public class Database {
         }
 
         Ride ride2 = new Ride(UUID.randomUUID().toString(), bike1, customer1, "Nørreport");
-        addRide(ride2, context, displayToasts);
+        createOrUpdateRide(ride2, context, displayToasts);
 
         boolean success2 = ride2.endRide("Home");
         if (displayToasts) {
@@ -99,7 +100,7 @@ public class Database {
     //  BIKE STAND
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addBikeStand(final BikeStand bikeStand, final Context context, final boolean displayToast) {
+    public void createOrUpdateBikeStand(final BikeStand bikeStand, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -153,7 +154,7 @@ public class Database {
     //  BIKE
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addBike(final Bike bike, final Context context, final boolean displayToast) {
+    public void createOrUpdateBike(final Bike bike, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -214,7 +215,7 @@ public class Database {
     //  CUSTOMER
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addCustomer(final Customer customer, final Context context, final boolean displayToast) {
+    public void createOrUpdateCustomer(final Customer customer, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -264,7 +265,7 @@ public class Database {
     //  RIDE
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void addRide(final Ride ride, final Context context, final boolean displayToast) {
+    public void createOrUpdateRide(final Ride ride, final Context context, final boolean displayToast) {
         sRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

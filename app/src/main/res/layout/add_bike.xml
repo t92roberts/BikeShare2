@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:gravity="start"
-        android:text="@string/currency"
+        android:text="@string/currency_per_hour"
         android:textAlignment="textStart"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/edit_text_price_per_hour"
