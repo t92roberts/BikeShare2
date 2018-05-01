@@ -61,9 +61,9 @@ public class BikesRecyclerViewFragment extends Fragment {
         mBikesList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (onlyVacantBikes) {
-            mAdapter = new BikesAdapter(sDatabase.getAllBikesFromRealm(false));
+            mAdapter = new BikesAdapter(sDatabase.getAllBikes(false));
         } else {
-            mAdapter = new BikesAdapter(sDatabase.getAllBikesFromRealm());
+            mAdapter = new BikesAdapter(sDatabase.getAllBikes());
         }
 
         mBikesList.setAdapter(mAdapter);
@@ -169,7 +169,7 @@ public class BikesRecyclerViewFragment extends Fragment {
 
         public void removeItem(int position) {
             // Delete from Real
-            sDatabase.deleteBikeFromRealm(mBikes.get(position).mId, getActivity(), true);
+            sDatabase.deleteBike(mBikes.get(position).mId, getActivity(), true);
 
             // Notify the RecyclerView that the item has been removed
             //mBikes.remove(position);

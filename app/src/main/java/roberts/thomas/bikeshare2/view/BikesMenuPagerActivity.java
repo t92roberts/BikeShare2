@@ -28,11 +28,9 @@ public class BikesMenuPagerActivity extends FragmentActivity {
 
         // Add the fragments to the ArrayList that will be paged
         final ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(AddBikeFragment.newInstance());
         fragments.add(BikesRecyclerViewFragment.newInstance(true)); // show only vacant bikes
+        fragments.add(AddBikeFragment.newInstance());
         fragments.add(BikesRecyclerViewFragment.newInstance(false)); // show all bikes
-        fragments.add(BikeFragment.newInstance("Test1"));
-        fragments.add(BikeFragment.newInstance("Test2"));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentPagerAdapter(fragmentManager) {

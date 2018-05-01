@@ -62,7 +62,7 @@ public class BikeFragment extends Fragment {
         sDatabase = Database.get(getActivity());
 
         String bikeId = getArguments().getString(ARG_BIKE_ID);
-        mBike = sDatabase.getBikeFromRealm(bikeId);
+        mBike = sDatabase.getBike(bikeId);
 
         mPhotoFile = sDatabase.getBikePhotoFile(mBike);
     }
@@ -124,7 +124,7 @@ public class BikeFragment extends Fragment {
             mCurrentLocationTextView.setText("Being ridden...");
         } else {
             mCurrentLocationTextView.setTextColor(Color.GREEN);
-            mCurrentLocationTextView.setText(mBike.mCurrentLocation);
+            mCurrentLocationTextView.setText(mBike.mCurrentBikeStand.mName);
         }
 
         return view;

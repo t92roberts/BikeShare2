@@ -115,17 +115,18 @@
         android:text="@string/location"
         android:textAlignment="textEnd"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/edit_text_current_location"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_current_location"
         app:layout_constraintEnd_toStartOf="@+id/vertical_40"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spinner_current_location" />
 
-    <EditText
-        android:id="@+id/edit_text_current_location"
+    <Spinner
+        android:id="@+id/spinner_current_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:gravity="start"
-        android:hint="@string/enter_a_location"
+        android:hint="@string/select_a_location"
         android:inputType="textCapSentences"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/horizontal_85"

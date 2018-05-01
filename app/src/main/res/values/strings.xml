@@ -5,7 +5,7 @@
     <string name="location">Location:</string>
     <string name="currency">kr/hr</string>
     <string name="enter_a_type">Enter a type</string>
-    <string name="enter_a_location">Enter a location</string>
+    <string name="select_a_location">Select a location</string>
     <string name="bike_type">Bike Type:</string>
     <string name="price">Price:</string>
     <string name="add_bike">Add Bike</string>
