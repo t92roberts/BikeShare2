@@ -206,6 +206,22 @@ public class Database {
         });
     }
 
+    public void setBikeActivityFlag(final Bike bike, final boolean isBeingRidden, final Context context, final boolean displayToast) {
+        sRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                bike.mIsBeingRidden = true;
+                realm.copyToRealmOrUpdate(bike);
+
+                if (displayToast) {
+                    Toast.makeText(context,
+                            "Bike: " + bike.mType + " is now " + (!isBeingRidden ? "not " : "") + "being ridden",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     public File getBikePhotoFile(Bike bike) {
         File filesDir = mContext.getFilesDir();
         return new File(filesDir, bike.getPhotoFileName());

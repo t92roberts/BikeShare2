@@ -144,10 +144,7 @@ public class BikeFragment extends Fragment {
                 // Customer object would be stored during the session and accessed
                 Customer loggedInCustomer = sDatabase.getCustomer("johnSmith");
 
-                // Cannot modify managed Realm objects outside of a write transaction so
-                // create a 'new' bike with the same info but changing the isBeingRidden status
-                mBike = new Bike(mBike.mId, mBike.mType, mBike.mCurrentBikeStand, mBike.mPricePerHour, true);
-                sDatabase.createOrUpdateBike(mBike, getActivity(), false);
+                sDatabase.setBikeActivityFlag(mBike, true, getActivity(), false);
 
                 Ride newRide = new Ride(UUID.randomUUID().toString(), mBike, loggedInCustomer);
                 newRide.startRide(mBike.mCurrentBikeStand);
