@@ -172,7 +172,6 @@ public class BikesRecyclerViewFragment extends Fragment {
             sDatabase.deleteBike(mBikes.get(position).mId, getActivity(), true);
 
             // Notify the RecyclerView that the item has been removed
-            //mBikes.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, mBikes.size());
         }

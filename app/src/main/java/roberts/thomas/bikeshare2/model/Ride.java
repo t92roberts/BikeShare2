@@ -30,13 +30,11 @@ public class Ride extends RealmObject {
 
     }
 
-    public Ride(String id, Bike bike, Customer customer) {
+    public Ride(String id, Bike bike, Customer customer, BikeStand startLocation) {
         mId = id;
         mBike = bike;
         mCustomer = customer;
-    }
 
-    public void startRide(BikeStand startLocation) {
         mStartLocation = startLocation;
         mStartTime = new Date();
 
@@ -48,7 +46,11 @@ public class Ride extends RealmObject {
         mEndLocation = endLocation;
 
         mIsActive = false;
+
+        /////////////////////////////////////////////////////////////////
+        // Change - can't modify a Realm object outside of a transaction
         mBike.mIsBeingRidden = false;
+        /////////////////////////////////////////////////////////////////
 
         mTotalPrice = calculateRidePrice();
         mCustomer.takePayment(mTotalPrice);
@@ -66,20 +68,20 @@ public class Ride extends RealmObject {
         }
     }
 
-    private String getFormattedStartTime() {
-        return new SimpleDateFormat(mCustomer.TIME_FORMAT_PATTERN).format(mStartTime);
-    }
-
-    private String getFormattedStartDate() {
+    public String getFormattedStartDate() {
         return new SimpleDateFormat(mCustomer.DATE_FORMAT_PATTERN).format(mStartTime);
     }
 
-    private String getFormattedEndTime() {
-        return new SimpleDateFormat(mCustomer.TIME_FORMAT_PATTERN).format(mEndTime);
+    public String getFormattedStartTime() {
+        return new SimpleDateFormat(mCustomer.TIME_FORMAT_PATTERN).format(mStartTime);
     }
 
-    private String getFormattedEndDate() {
+    public String getFormattedEndDate() {
         return new SimpleDateFormat(mCustomer.DATE_FORMAT_PATTERN).format(mEndTime);
+    }
+
+    public String getFormattedEndTime() {
+        return new SimpleDateFormat(mCustomer.TIME_FORMAT_PATTERN).format(mEndTime);
     }
 
     public String toString() {

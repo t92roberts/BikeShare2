@@ -16,7 +16,7 @@ public class Customer extends RealmObject {
     public final MutableRealmInteger mAccountBalance;
 
     public static final String TIME_FORMAT_PATTERN = "HH:mm";
-    public static final String DATE_FORMAT_PATTERN = "EEE dd MMM yyyy";
+    public static final String DATE_FORMAT_PATTERN = "EEE d MMM yyyy";
 
     public Customer() {
         mAccountBalance = MutableRealmInteger.valueOf(0);

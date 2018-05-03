@@ -130,13 +130,14 @@ public class BikeFragment extends Fragment {
         if (mBike.mIsBeingRidden) {
             mCurrentLocationTextView.setTextColor(Color.RED);
             mCurrentLocationTextView.setText("Being ridden...");
-            mRentBikeButton.setEnabled(false);
+            mRentBikeButton.setVisibility(View.INVISIBLE);
         } else {
             mCurrentLocationTextView.setTextColor(Color.GREEN);
             mCurrentLocationTextView.setText(mBike.mCurrentBikeStand.mName);
-            mRentBikeButton.setEnabled(true);
+            mRentBikeButton.setVisibility(View.VISIBLE);
         }
 
+        // Start a new ride
         mRentBikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,8 +147,10 @@ public class BikeFragment extends Fragment {
 
                 sDatabase.setBikeActivityFlag(mBike, true, getActivity(), false);
 
-                Ride newRide = new Ride(UUID.randomUUID().toString(), mBike, loggedInCustomer);
-                newRide.startRide(mBike.mCurrentBikeStand);
+                Ride newRide = new Ride(UUID.randomUUID().toString(),
+                        mBike,
+                        loggedInCustomer,
+                        mBike.mCurrentBikeStand);
 
                 sDatabase.createOrUpdateRide(newRide, getActivity(), true);
             }

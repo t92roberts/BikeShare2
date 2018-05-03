@@ -23,12 +23,12 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
         String arg = getIntent().getStringExtra("arg");
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.frame_layout_bike);
 
         if (fragment == null) {
             fragment = createFragment(arg);
             fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
+                    .add(R.id.frame_layout_bike, fragment)
                     .commit();
         }
     }

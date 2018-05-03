@@ -13,4 +13,5 @@
     <string name="photo_of_the_bike">Photo of the bike</string>
     <string name="button_to_capture_a_photo_of_the_bike">Button to capture a photo of the bike</string>
     <string name="rent_bike">Rent Bike</string>
+    <string name="end_ride">End Ride</string>
 </resources>

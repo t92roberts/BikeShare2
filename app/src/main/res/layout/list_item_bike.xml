@@ -80,7 +80,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:gravity="top"
-        android:text="@string/currency"
+        android:text="@string/currency_per_hour"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

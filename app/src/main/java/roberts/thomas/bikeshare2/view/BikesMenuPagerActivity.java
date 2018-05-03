@@ -22,15 +22,16 @@ public class BikesMenuPagerActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
+        setContentView(R.layout.view_pager);
 
         mViewPager = findViewById(R.id.view_pager);
 
         // Add the fragments to the ArrayList that will be paged
         final ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(RidesRecyclerViewFragment.newInstance(false));
         fragments.add(BikesRecyclerViewFragment.newInstance(true)); // show only vacant bikes
-        fragments.add(AddBikeFragment.newInstance());
         fragments.add(BikesRecyclerViewFragment.newInstance(false)); // show all bikes
+        //fragments.add(AddBikeFragment.newInstance());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentPagerAdapter(fragmentManager) {

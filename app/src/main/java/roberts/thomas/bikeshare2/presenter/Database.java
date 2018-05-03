@@ -304,9 +304,15 @@ public class Database {
                 .findAll();
     }
 
-    public List<Ride> getAllActiveRides(boolean isActive) {
+    public List<Ride> getAllRides(boolean isActive) {
         return sRealm.where(Ride.class)
                 .equalTo("mIsActive", isActive)
+                .findAll();
+    }
+
+    public List<Ride> getAllCustomerRides(Customer customer) {
+        return sRealm.where(Ride.class)
+                .equalTo("mCustomer.mId", customer.mId)
                 .findAll();
     }
 
