@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import roberts.thomas.bikeshare2.R;
@@ -79,6 +78,18 @@ public class RideFragment extends Fragment {
             mEndTimeTextView.setText(mRide.getFormattedEndTime());
             mEndRideButton.setVisibility(View.INVISIBLE);
         }
+
+        mEndRideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO - Use the phone's current location
+                Location customerLocation = mRide.mCustomer.getCurrentLocation();
+
+                BikeStand nearestBikeStand = sDatabase.getNearestBikeStand(customerLocation);
+                sDatabase.endRide(mRide, nearestBikeStand, getActivity(), true);
+                getActivity().recreate();
+            }
+        });
 
         return view;
     }

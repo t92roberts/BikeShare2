@@ -150,6 +150,24 @@ public class Database {
         return bikeStandNames;
     }
 
+    public BikeStand getNearestBikeStand(Location location) {
+        List<BikeStand> allBikesStands = getAllBikeStands();
+
+        BikeStand nearestBikeStand = allBikesStands.get(0);
+
+        for (int i = 1; i < allBikesStands.size(); i++) {
+            double currentMin = location.distanceTo(nearestBikeStand.mLocation);
+
+            BikeStand currentBikeStand = allBikesStands.get(i);
+
+            if (location.distanceTo(currentBikeStand.mLocation) < currentMin) {
+                nearestBikeStand = currentBikeStand;
+            }
+        }
+
+        return nearestBikeStand;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  BIKE
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -201,22 +219,6 @@ public class Database {
                                 Toast.LENGTH_LONG).show();
                     }
                     bikes.deleteFirstFromRealm();
-                }
-            }
-        });
-    }
-
-    public void setBikeActivityFlag(final Bike bike, final boolean isBeingRidden, final Context context, final boolean displayToast) {
-        sRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                bike.mIsBeingRidden = true;
-                realm.copyToRealmOrUpdate(bike);
-
-                if (displayToast) {
-                    Toast.makeText(context,
-                            "Bike: " + bike.mType + " is now " + (!isBeingRidden ? "not " : "") + "being ridden",
-                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -308,6 +310,38 @@ public class Database {
         return sRealm.where(Ride.class)
                 .equalTo("mIsActive", isActive)
                 .findAll();
+    }
+
+    public void startRide(final Ride ride, final BikeStand startLocation, final Context context, final boolean displayToast) {
+        sRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ride.startRide(startLocation);
+                realm.copyToRealmOrUpdate(ride);
+
+                if (displayToast) {
+                    Toast.makeText(context,
+                            "Started ride " + ride.mId + " at " + startLocation.mName,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void endRide(final Ride ride, final BikeStand endLocation, final Context context, final boolean displayToast) {
+        sRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ride.endRide(endLocation);
+                realm.copyToRealmOrUpdate(ride);
+
+                if (displayToast) {
+                    Toast.makeText(context,
+                            "Ended ride " + ride.mId + " at " + endLocation.mName,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public List<Ride> getAllCustomerRides(Customer customer) {

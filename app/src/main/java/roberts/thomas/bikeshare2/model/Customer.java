@@ -42,6 +42,11 @@ public class Customer extends RealmObject {
         }
     }
 
+    public Location getCurrentLocation() {
+        // TODO - Use the location of their phone
+        return new Location("testLocation", 55.699068d, 12.578048d);
+    }
+
     public String toString() {
         return getFullName() + " has a balance of " + mAccountBalance.get().toString() + " kr";
     }

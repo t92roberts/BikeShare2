@@ -30,27 +30,29 @@ public class Ride extends RealmObject {
 
     }
 
-    public Ride(String id, Bike bike, Customer customer, BikeStand startLocation) {
+    public Ride(String id, Bike bike, Customer customer) {
         mId = id;
         mBike = bike;
         mCustomer = customer;
+    }
 
+    // Must only be called within a Realm transaction as it modifies managed objects
+    public void startRide(BikeStand startLocation) {
         mStartLocation = startLocation;
         mStartTime = new Date();
 
         mIsActive = true;
+        mBike.mIsBeingRidden = true;
     }
 
+    // Must only be called within a Realm transaction as it modifies managed objects
     public void endRide(BikeStand endLocation) {
-        mEndTime = new Date();
         mEndLocation = endLocation;
+        mEndTime = new Date();
 
         mIsActive = false;
-
-        /////////////////////////////////////////////////////////////////
-        // Change - can't modify a Realm object outside of a transaction
         mBike.mIsBeingRidden = false;
-        /////////////////////////////////////////////////////////////////
+        mBike.mCurrentBikeStand = endLocation;
 
         mTotalPrice = calculateRidePrice();
         mCustomer.takePayment(mTotalPrice);

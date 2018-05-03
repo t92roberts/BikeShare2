@@ -145,14 +145,9 @@ public class BikeFragment extends Fragment {
                 // Customer object would be stored during the session and accessed
                 Customer loggedInCustomer = sDatabase.getCustomer("johnSmith");
 
-                sDatabase.setBikeActivityFlag(mBike, true, getActivity(), false);
+                Ride newRide = new Ride(UUID.randomUUID().toString(), mBike, loggedInCustomer);
 
-                Ride newRide = new Ride(UUID.randomUUID().toString(),
-                        mBike,
-                        loggedInCustomer,
-                        mBike.mCurrentBikeStand);
-
-                sDatabase.createOrUpdateRide(newRide, getActivity(), true);
+                sDatabase.startRide(newRide, mBike.mCurrentBikeStand, getActivity(), true);
             }
         });
 
