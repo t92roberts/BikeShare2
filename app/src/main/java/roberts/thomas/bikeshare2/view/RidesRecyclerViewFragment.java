@@ -1,7 +1,6 @@
 package roberts.thomas.bikeshare2.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,14 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.List;
 
 import roberts.thomas.bikeshare2.R;
-import roberts.thomas.bikeshare2.helpers.PictureUtils;
 import roberts.thomas.bikeshare2.model.Ride;
 import roberts.thomas.bikeshare2.presenter.Database;
 
@@ -72,16 +68,11 @@ public class RidesRecyclerViewFragment extends Fragment {
     public class RideHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Ride mRide;
 
-        private ImageView mBikeImageView;
-        private TextView mTypeTextView;
         private TextView mStartLocationTextView, mStartDateTextView, mStartTimeTextView;
         private TextView mEndLocationTextView, mEndDateTextView, mEndTimeTextView;
 
         public RideHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_ride, parent, false));
-
-            mBikeImageView = itemView.findViewById(R.id.image_view_bike_photo);
-            mTypeTextView = itemView.findViewById(R.id.text_view_type);
 
             mStartLocationTextView = itemView.findViewById(R.id.text_view_start_location);
             mStartDateTextView = itemView.findViewById(R.id.text_view_start_date);
@@ -97,17 +88,6 @@ public class RidesRecyclerViewFragment extends Fragment {
         public void bind(Ride ride) {
             mRide = ride;
 
-            // Load the bike image (if it exists)
-            File mPhotoFile = sDatabase.getBikePhotoFile(ride.mBike);
-
-            if (mPhotoFile == null || !mPhotoFile.exists()) {
-                mBikeImageView.setImageDrawable(null);
-            } else {
-                Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
-                mBikeImageView.setImageBitmap(bitmap);
-            }
-
-            mTypeTextView.setText(ride.mBike.mType);
             mStartLocationTextView.setText(ride.mStartLocation.mName);
             mStartDateTextView.setText(ride.getFormattedStartDate());
             mStartTimeTextView.setText(ride.getFormattedStartTime());

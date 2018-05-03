@@ -16,4 +16,8 @@
     <string name="end_ride">End Ride</string>
     <string name="bike">Bike</string>
     <string name="ride">Ride</string>
+    <string name="title_activity_main">Bike Share</string>
+    <string name="title_vacant_bikes">Vacant Bikes</string>
+    <string name="title_active_rides">Active Rides</string>
+    <string name="title_profile">Profile</string>
 </resources>

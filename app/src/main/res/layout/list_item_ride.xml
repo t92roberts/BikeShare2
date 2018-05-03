@@ -7,47 +7,18 @@
     android:orientation="horizontal"
     tools:layout_editor_absoluteY="81dp">
 
-    <ImageView
-        android:id="@+id/image_view_bike_photo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
-        android:contentDescription="Photo of the bike"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/guideline14"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_view_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:gravity="center_vertical"
-        android:text="Bike Type"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_bike_photo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline_vertical_2"
-        app:layout_constraintTop_toTopOf="@+id/image_view_bike_photo" />
-
     <TextView
         android:id="@+id/text_view_start_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="Start Location"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_view_start_date"
@@ -93,11 +64,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="End Location"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline_vertical_80"
-        app:layout_constraintTop_toTopOf="@+id/guideline14" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_view_end_date"
@@ -137,12 +109,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.43" />
 
 </android.support.constraint.ConstraintLayout>

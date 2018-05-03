@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
@@ -41,7 +42,7 @@ public class AddBikeFragment extends Fragment {
 
     private static Database sDatabase;
 
-    //private Bike mBike;
+    private Bike mBike;
 
     private File mPhotoFile;
     private ImageView mBikeImageView;
@@ -64,9 +65,9 @@ public class AddBikeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sDatabase = Database.get(getActivity());
 
-        //mBike = new Bike(UUID.randomUUID().toString(), "", null, 0, false);
+        mBike = new Bike(UUID.randomUUID().toString(), "", null, 0, false);
 
-        //mPhotoFile = sDatabase.getBikePhotoFile(mBike);
+        mPhotoFile = sDatabase.getBikePhotoFile(mBike);
     }
 
     @Override
@@ -78,12 +79,12 @@ public class AddBikeFragment extends Fragment {
 
         mAddPhotoButton = view.findViewById(R.id.image_button_add_photo);
 
-        PackageManager packageManager = getActivity().getPackageManager();
-
         /////////////////////////////////////////////////////////////////////////////////
         //  Capture an image using the camera (if a camera is available)
         /////////////////////////////////////////////////////////////////////////////////
+
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        PackageManager packageManager = getActivity().getPackageManager();
 
         // Disable the button if the phone doesn't have a camera
         boolean canTakePhoto = mPhotoFile != null &&
@@ -166,6 +167,8 @@ public class AddBikeFragment extends Fragment {
                     mTypeEditText.setText("");
                     mPricePerHourEditText.setText("");
                     mCurrentLocationSpinner.setSelection(0);
+                } else {
+                    Toast.makeText(getContext(),"All fields (except photo) are mandatory", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -148,6 +148,8 @@ public class BikeFragment extends Fragment {
                 Ride newRide = new Ride(UUID.randomUUID().toString(), mBike, loggedInCustomer);
 
                 sDatabase.startRide(newRide, mBike.mCurrentBikeStand, getActivity(), true);
+
+                getActivity().recreate();
             }
         });
 

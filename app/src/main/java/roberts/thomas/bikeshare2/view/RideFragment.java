@@ -27,10 +27,11 @@ public class RideFragment extends Fragment {
 
     private Ride mRide;
 
+    private TextView mRideCostTextView;
     private TextView mStartLocationTextView, mStartDateTextView, mStartTimeTextView;
     private TextView mEndLocationTextView, mEndDateTextView, mEndTimeTextView;
 
-    Button mEndRideButton;
+    private Button mEndRideButton;
 
     public static RideFragment newInstance(String rideId) {
         Bundle args = new Bundle();
@@ -54,6 +55,8 @@ public class RideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ride, container, false);
 
+        mRideCostTextView = view.findViewById(R.id.text_view_ride_cost);
+
         mStartLocationTextView = view.findViewById(R.id.text_view_start_location);
         mStartDateTextView = view.findViewById(R.id.text_view_start_date);
         mStartTimeTextView = view.findViewById(R.id.text_view_start_time);
@@ -69,10 +72,12 @@ public class RideFragment extends Fragment {
         mStartTimeTextView.setText(mRide.getFormattedStartTime());
 
         if (mRide.mIsActive) {
+            mRideCostTextView.setText("> " + String.valueOf(mRide.mBike.mPricePerHour));
             mEndLocationTextView.setVisibility(View.INVISIBLE);
             mEndDateTextView.setVisibility(View.INVISIBLE);
             mEndTimeTextView.setVisibility(View.INVISIBLE);
         } else {
+            mRideCostTextView.setText(String.valueOf(mRide.mTotalPrice));
             mEndLocationTextView.setText(mRide.mEndLocation.mName);
             mEndDateTextView.setText(mRide.getFormattedEndDate());
             mEndTimeTextView.setText(mRide.getFormattedEndTime());

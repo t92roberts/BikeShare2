@@ -4,7 +4,7 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false"/>
+        android:required="false" />
 
     <application
         android:name=".BikeShareApplication"
@@ -14,15 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_bike_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.BikesMenuPagerActivity">
+        <activity android:name=".view.MainActivity" android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.BikeActivity"/>
-        <activity android:name=".view.RideActivity"/>
+        <activity android:name=".view.BikeActivity" android:label="Bike Info" />
+        <activity android:name=".view.RideActivity" android:label="Ride Info" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="roberts.thomas.bikeshare2.fileprovider"
@@ -30,8 +31,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/files"/>
+                android:resource="@xml/files" />
         </provider>
+
     </application>
 
 </manifest>
