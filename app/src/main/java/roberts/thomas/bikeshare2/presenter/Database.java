@@ -1,12 +1,19 @@
 package roberts.thomas.bikeshare2.presenter;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -215,7 +222,7 @@ public class Database {
                 if (bikes.size() > 0) {
                     if (displayToast) {
                         Toast.makeText(context,
-                                "Deleted bike: " + bikes.first().mId,
+                                "Deleted " + bikes.first().mType,
                                 Toast.LENGTH_LONG).show();
                     }
                     bikes.deleteFirstFromRealm();
@@ -240,7 +247,7 @@ public class Database {
                 realm.copyToRealmOrUpdate(customer);
                 if (displayToast) {
                     Toast.makeText(context,
-                            "Added customer: " + customer.getFullName() + " (" + customer.mId + ")",
+                            "Added customer: " + customer.getFullName(),
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -269,8 +276,7 @@ public class Database {
                 if (customers.size() > 0) {
                     if (displayToast) {
                         Toast.makeText(context,
-                                "Deleted customer: " + customers.first().getFullName() +
-                                        " (" + customers.first().mId + ")",
+                                "Deleted customer: " + customers.first().getFullName(),
                                 Toast.LENGTH_LONG).show();
                     }
                     customers.deleteFirstFromRealm();
@@ -289,7 +295,7 @@ public class Database {
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(ride);
                 if (displayToast) {
-                    Toast.makeText(context, "Added ride: " + ride.mId, Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Added ride", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -321,7 +327,7 @@ public class Database {
 
                 if (displayToast) {
                     Toast.makeText(context,
-                            "Started ride " + ride.mId + " at " + startLocation.mName,
+                            "Started ride at " + startLocation.mName,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -337,7 +343,7 @@ public class Database {
 
                 if (displayToast) {
                     Toast.makeText(context,
-                            "Ended ride " + ride.mId + " at " + endLocation.mName,
+                            "Ended ride at " + endLocation.mName,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -368,5 +374,32 @@ public class Database {
                 }
             }
         });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // LOCATION
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Location getCurrentLocation(FragmentActivity fragmentActivity) {
+        if (ActivityCompat.checkSelfPermission(fragmentActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(fragmentActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return null;
+        }
+
+        LocationManager locationManager = (LocationManager) fragmentActivity.getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager != null) {
+            String provider = locationManager.getBestProvider(new Criteria(), true);
+            android.location.Location currentLocation = locationManager.getLastKnownLocation(provider);
+
+            return new Location(UUID.randomUUID().toString(), currentLocation.getLatitude(), currentLocation.getLongitude());
+        }
+
+        return null;
     }
 }

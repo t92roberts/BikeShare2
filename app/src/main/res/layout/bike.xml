@@ -64,7 +64,7 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/text_view_currency"
-        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintStart_toEndOf="@+id/text_view_type"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <TextView

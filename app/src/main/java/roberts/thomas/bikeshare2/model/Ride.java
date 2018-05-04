@@ -55,6 +55,7 @@ public class Ride extends RealmObject {
         mBike.mCurrentBikeStand = endLocation;
 
         mTotalPrice = calculateRidePrice();
+
         mCustomer.takePayment(mTotalPrice);
     }
 

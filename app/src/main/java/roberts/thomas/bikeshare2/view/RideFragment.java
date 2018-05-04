@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import roberts.thomas.bikeshare2.R;
 import roberts.thomas.bikeshare2.model.BikeStand;
@@ -87,12 +88,17 @@ public class RideFragment extends Fragment {
         mEndRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO - Use the phone's current location
-                Location customerLocation = mRide.mCustomer.getCurrentLocation();
+                Location customerLocation = sDatabase.getCurrentLocation(getActivity()); // get the phone's location
 
-                BikeStand nearestBikeStand = sDatabase.getNearestBikeStand(customerLocation);
-                sDatabase.endRide(mRide, nearestBikeStand, getActivity(), true);
-                getActivity().recreate();
+                if (customerLocation != null) {
+                    BikeStand nearestBikeStand = sDatabase.getNearestBikeStand(customerLocation);
+                    sDatabase.endRide(mRide, nearestBikeStand, getActivity(), true);
+                    getActivity().recreate();
+                } else {
+                    Toast.makeText(getActivity(),
+                            "Unable to find current location. Please check app permissions.",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 

@@ -52,12 +52,7 @@ public class AddBikeFragment extends Fragment {
     private Button mAddBikeButton;
 
     public static AddBikeFragment newInstance() {
-        /*Bundle args = new Bundle();
-        args.putString(ARG_BIKE_ID, bikeId);*/
-
-        AddBikeFragment fragment = new AddBikeFragment();
-        //fragment.setArguments(args);
-        return fragment;
+        return new AddBikeFragment();
     }
 
     @Override

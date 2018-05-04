@@ -33,18 +33,8 @@ public class Customer extends RealmObject {
         return mFirstName + " " + mLastName;
     }
 
-    public boolean takePayment(int amount) {
-        if (mAccountBalance.get() >= amount) {
-            mAccountBalance.decrement(amount);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public Location getCurrentLocation() {
-        // TODO - Use the location of their phone
-        return new Location("testLocation", 55.699068d, 12.578048d);
+    public void takePayment(int amount) {
+        mAccountBalance.decrement(amount);
     }
 
     public String toString() {

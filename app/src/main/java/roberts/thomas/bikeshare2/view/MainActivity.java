@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the initial fragment to display
         mFragmentManager = getSupportFragmentManager();
-        mFragment = AddBikeFragment.newInstance();
+        mFragment = MapFragment.newInstance();
         final FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.add(R.id.container, mFragment).commit();
 
@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.navigation_map:
+                        mFragment = MapFragment.newInstance();
+                        break;
                     case R.id.navigation_add_bike:
                         mFragment = AddBikeFragment.newInstance();
                         break;
