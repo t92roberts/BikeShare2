@@ -397,7 +397,9 @@ public class Database {
             String provider = locationManager.getBestProvider(new Criteria(), true);
             android.location.Location currentLocation = locationManager.getLastKnownLocation(provider);
 
-            return new Location(UUID.randomUUID().toString(), currentLocation.getLatitude(), currentLocation.getLongitude());
+            if (currentLocation != null) {
+                return new Location(UUID.randomUUID().toString(), currentLocation.getLatitude(), currentLocation.getLongitude());
+            }
         }
 
         return null;

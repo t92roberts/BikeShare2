@@ -96,8 +96,11 @@ public class RideFragment extends Fragment {
                     getActivity().recreate();
                 } else {
                     Toast.makeText(getActivity(),
-                            "Unable to find current location. Please check app permissions.",
+                            "Cannot find your current location. Please return the bike to where you rented it from.",
                             Toast.LENGTH_LONG).show();
+                    BikeStand startLocation = mRide.mStartLocation;
+                    sDatabase.endRide(mRide, startLocation, getActivity(), true);
+                    getActivity().recreate();
                 }
             }
         });
