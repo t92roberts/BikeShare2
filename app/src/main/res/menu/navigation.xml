@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigation_map"
         android:icon="@android:drawable/ic_dialog_map"
-        android:title="@string/title_activity_maps" />
+        android:title="@string/title_activity_map" />
 
     <item
         android:id="@+id/navigation_add_bike"
@@ -19,7 +19,7 @@
     <item
         android:id="@+id/navigation_active_rides"
         android:icon="@android:drawable/ic_menu_directions"
-        android:title="@string/title_active_rides" />
+        android:title="@string/title_rides" />
 
     <item
         android:id="@+id/navigation_profile"
